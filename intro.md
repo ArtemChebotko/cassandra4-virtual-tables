@@ -13,15 +13,16 @@
     <div class="container px-4 py-2">
      <div class="row g-4 py-2 row-cols-1 row-cols-lg-1">
       <div class="feature col div-choice">
-            <div class="scenario-description">Learn how to access internode messaging metrics.</div>
+            <div class="scenario-description">Learn how to use virtual tables for metrics and configuration properties.</div>
             <ul>
               <li><span class="scenario-description-attribute">Difficulty</span>: Easy</li>
-              <li><span class="scenario-description-attribute">Time</span>: 10 minutes</li>
+              <li><span class="scenario-description-attribute">Time</span>: 15 minutes</li>
             </ul>
             <div class="scenario-objectives">In this hands-on lab, you will:</div>
             <ul>
-              <li><span class="scenario-objective">Learn about internode messaging improvements</span></li>
-              <li><span class="scenario-objective">Access internode messaging metrics in virtual tables</span></li>              
+              <li><span class="scenario-objective">Explore virtual tables and their contents</span></li>
+              <li><span class="scenario-objective">Learn what you <i>cannot</i> do with virtual tables</span></li>
+              <li><span class="scenario-objective">Understand what to expect if you change node settingss</span></li>
             </ul>
       </div>
      </div>

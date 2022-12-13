@@ -24,8 +24,9 @@
         <br/>
         <div class="scenario-objectives">In this hands-on lab, you explored:</div>
         <ul>
-              <li><span class="scenario-objective">Internode messaging improvements</span></li>
-              <li><span class="scenario-objective">Internode messaging metrics</span></li>
+              <li><span class="scenario-objective">Virtual tables and their contents</span></li>
+              <li><span class="scenario-objective">What you <i>cannot</i> do with virtual tables</span></li>
+              <li><span class="scenario-objective">What to expect if you change node settingss</span></li>
         </ul>
         <div class="resources">Learn more about Cassandra on <a href="https://datastax.com/dev" target="_blank">datastax.com/dev</a>:</div>
         <ul>
