@@ -17,7 +17,6 @@ tasks:
       mv config/cassandra.yaml $HOME/apache-cassandra/conf/cassandra.yaml      
       source /home/gitpod/.astra/cli/astra-init.sh
       $HOME/apache-cassandra/bin/cassandra
-      pip install dse-driver==2.11.1
 ports:
   - port: 9042
     onOpen: ignore

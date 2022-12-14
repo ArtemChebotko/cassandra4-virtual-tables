@@ -32,7 +32,7 @@
           ],
           "python": [
             {
-              "command": "clear",
+              "command": "./wait-python.sh",
               "maxInvocations": 1
             }
           ]
