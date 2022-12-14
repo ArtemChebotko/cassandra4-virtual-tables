@@ -20,27 +20,58 @@
 
 <!-- CONTENT -->
 
-<div class="step-title">Cleaning up technical debt</div>
+<div class="step-title">Understand limitations</div>
 
-Besides changing the way threads receive messages, Cassandra developers did a lot of cleanup and tuning of the internode message code path.
+Virtual tables and their related keyspaces impose several restrictions
+on the kinds of operations that can be performed.
 
-As developers work on code and make changes, sometimes the code can become a bit brittle or inefficient.
-Developers refer to this as _Technical Debt_.
+✅ Find out if you can add a column to a virtual table:
+```
+### cqlsh
+ALTER TABLE settings ADD comment TEXT;
+```
 
-It's good to retire technical debt by refactoring or cleaning up the code, and that is exactly what developers did with the internode message code for the 4.x release.
-The benefits of retiring technical debt include:
-* More efficient code, which means the code requires less processing
-* Code that is easier to read and understand so future changes are easier
-* Code that is more robust, yielding faster and more predictable response times
+_Note: this command and the next ones result in errors._
 
-The Cassandra 4.x cleanup includes:
-* Protocol improvements that remove redundant information and make the protocol more efficient
-* Handling corner cases where code didn't deal gracefully with exceptions
-* Buffer optimization that reduces memory requirements due to internode messaging
-* Introduction of messaging timeouts under certain conditions
-* Optimizations that allow a node to bypass long code paths when sending messages to itself
+✅ Find out if you can upsert a new row to a virtual table:
+```
+### cqlsh
+INSERT INTO settings (name , value ) VALUES ( 'MaxNumberOfGlorxes', '137');
+```
 
-The bottom line for these changes is Cassandra is faster, more efficient and more robust!
+✅ Find ouf if you can clear the contents of a virtual table:
+```
+### cqlsh
+TRUNCATE settings;
+```
+
+✅ Find out if you can create an index:
+```
+### cqlsh
+CREATE INDEX ON settings (value);
+```
+
+✅ Virtual tables can be queried with the same syntax as regular tables.
+Suppose we want to list all (Boolean) settings that are set to "true":
+```
+### cqlsh
+SELECT name FROM settings WHERE value='true';
+```
+
+This query, as it is, will fail with a standard message about _data filtering_
+(which is how CQL advises against full-cluster scans).
+Thanks to the fact that virtual tables are **not** actually distributed,
+however, it is
+perfectly fine to add the `ALLOW FILTERING` clause to such a query
+(indeed, this is one of the very few cases it is acceptable to).
+
+✅ Try the same query with `ALLOW FILTERING`:
+```
+### cqlsh
+SELECT name FROM settings WHERE value='true' ALLOW FILTERING ;
+```
+
+This observation will come handy in the next step.
 
 <!-- NAVIGATION -->
 <div id="navigation-bottom" class="navigation-bottom">
