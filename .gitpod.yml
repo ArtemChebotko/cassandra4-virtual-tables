@@ -4,38 +4,29 @@ tasks:
       printf 'export PATH="$HOME%s:$PATH"\n' "/.astra/cli" >> $HOME/.bashrc
       printf 'unset JAVA_TOOL_OPTIONS\n' >> $HOME/.bashrc
       curl -Ls "https://dtsx.io/get-astra-cli" | bash >> ./install.log
+      printf 'export PATH="$HOME%s:$PATH"\n' "/apache-cassandra/bin" >> $HOME/.bashrc
+      printf 'export PATH="$HOME%s:$PATH"\n' "/apache-cassandra/tools/bin" >> $HOME/.bashrc
     init: |
-      docker pull cassandra:4.0
+      wget https://archive.apache.org/dist/cassandra/4.0.5/apache-cassandra-4.0.5-bin.tar.gz
       pip install -U cqlsh
     command: | 
-      docker run -p 9042:9042 -d \
-                 --name Cassandra-1 \
-                 -e CASSANDRA_CLUSTER_NAME='Cassandra Cluster' \
-                 -e CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch \
-                 -e CASSANDRA_DC=DC-West \
-                 -e CASSANDRA_RACK=rack1 \
-                 cassandra:4.0
-      timeout 60 bash -c 'until cqlsh localhost 9042 -e "describe cluster" >/dev/null 2>&1; do sleep 1; done'
-      INSTANCE1=$(docker inspect --format='{{ .NetworkSettings.IPAddress }}' Cassandra-1)
-      docker run -p 9043:9042 -d \
-                 --name Cassandra-2 \
-                 -e CASSANDRA_CLUSTER_NAME='Cassandra Cluster' \
-                 -e CASSANDRA_SEEDS=$INSTANCE1 \
-                 -e CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch \
-                 -e CASSANDRA_DC=DC-East \
-                 -e CASSANDRA_RACK=rack1 \
-                 cassandra:4.0
-      INSTANCE2=$(docker inspect --format='{{ .NetworkSettings.IPAddress }}' Cassandra-2)
+      tar -xzf apache-cassandra-4.0.5-bin.tar.gz
+      rm apache-cassandra-4.0.5-bin.tar.gz
+      mv apache-cassandra-4.0.5 $HOME/apache-cassandra
+      mv config/cassandra-rackdc.properties $HOME/apache-cassandra/conf/cassandra-rackdc.properties
+      mv config/cassandra.yaml $HOME/apache-cassandra/conf/cassandra.yaml      
       source /home/gitpod/.astra/cli/astra-init.sh
+      $HOME/apache-cassandra/bin/cassandra
 ports:
   - port: 9042
     onOpen: ignore
-  - port: 9043
+  - port: 7000
     onOpen: ignore
+  - port: 7199
+    onOpen: ignore 
 github:
   prebuilds:
     main: true
 vscode:
    extensions:
-    - https://github.com/HadesArchitect/katapod/releases/download/nightly/katapod-nightly.vsix
-
+    - https://github.com/hemidactylus/katapod/releases/download/0.6.1-multiterminals-beta2/katapod-0.6.1-multiterminals-beta2.vsix

@@ -1,0 +1,42 @@
+{
+    "layout": {
+      "terminals": [
+        {
+          "id": "bash",
+          "name": "bash-terminal"
+        },
+        {
+          "id": "cqlsh",
+          "name": "cqlsh-terminal"
+        },
+        {
+          "id": "python",
+          "name": "python-terminal"
+        }
+      ]
+    },
+    "navigation": {
+      "onLoadCommands": {
+        "intro": {
+          "bash": [
+            {
+              "command": "./wait.sh",
+              "maxInvocations": 1
+            }
+          ],
+          "cqlsh": [
+            {
+              "command": "clear",
+              "maxInvocations": 1
+            }
+          ],
+          "python": [
+            {
+              "command": "clear",
+              "maxInvocations": 1
+            }
+          ]
+        }
+      }
+    }
+  }
