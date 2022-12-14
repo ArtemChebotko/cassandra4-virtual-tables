@@ -8,8 +8,7 @@ tasks:
       printf 'export PATH="$HOME%s:$PATH"\n' "/apache-cassandra/tools/bin" >> $HOME/.bashrc
     init: |
       wget https://archive.apache.org/dist/cassandra/4.0.5/apache-cassandra-4.0.5-bin.tar.gz
-      pip install -U cqlsh
-      pip install dse-driver==2.11.1
+      pip install -U cqlsh      
     command: | 
       tar -xzf apache-cassandra-4.0.5-bin.tar.gz
       rm apache-cassandra-4.0.5-bin.tar.gz
@@ -18,6 +17,7 @@ tasks:
       mv config/cassandra.yaml $HOME/apache-cassandra/conf/cassandra.yaml      
       source /home/gitpod/.astra/cli/astra-init.sh
       $HOME/apache-cassandra/bin/cassandra
+      pip install dse-driver==2.11.1
 ports:
   - port: 9042
     onOpen: ignore
