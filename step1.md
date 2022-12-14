@@ -25,8 +25,8 @@
 The environment has a single-node Cassandra cluster running. 
 We will interact with Cassandra by executing commands in the three terminals:
 * `bash-terminal` is for using utilities like `nodetool` and `grep`;
-* `cqlsh-terminal` is for using the CQL shell;
-* `python-terminal` is for using a Python client for Cassandra. 
+* `cqlsh-terminal` is for running the CQL shell;
+* `python-terminal` is for interacting with Cassandra via a Python client. 
 
 ✅ Use `nodetool` in `bash-terminal` to verify that Cassandrais is running:
 ```
