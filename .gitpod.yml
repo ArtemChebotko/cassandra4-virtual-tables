@@ -9,6 +9,7 @@ tasks:
     init: |
       wget https://archive.apache.org/dist/cassandra/4.0.5/apache-cassandra-4.0.5-bin.tar.gz
       pip install -U cqlsh
+      pip install dse-driver==2.11.1
     command: | 
       tar -xzf apache-cassandra-4.0.5-bin.tar.gz
       rm apache-cassandra-4.0.5-bin.tar.gz

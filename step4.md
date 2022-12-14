@@ -20,17 +20,78 @@
 
 <!-- CONTENT -->
 
-<div class="step-title">Learn about the cluster</div>
+<div class="step-title">Explore client connections</div>
 
-Now, we want to _show_ you some of the changes.
+Now, we want to look at the clients currently connected to this node through CQL.
 
-✅ Let's start by taking a look at the cluster we have set up:
+✅ This is done by querying the virtual table `system_views.clients`:
 ```
-docker exec -i -t Cassandra-1 bash -c 'nodetool status'
+### cqlsh
+SELECT port, connection_stage, 
+       driver_name, protocol_version, 
+       username 
+FROM clients ;
 ```
 
-You should see two datacenters with one node each.
-In a real-life production cluster, you can usually expect to have 3 or more nodes per datacenter, but for this demo, we only need two nodes.
+Wait a minute ... what are these clients?
+
+It turns out that `cqlsh` uses the Python driver.
+This driver keeps two connections alive on two different ports
+(the port numbers are chosen dynamically).
+So you are simply looking at the connection between your own `cqlsh`
+and the node.
+
+Let's create more connections.
+
+✅ First, let's start a Python interpreter console (or _REPL_) and connect to the
+node from there. Start the Python interpreter in `python-terminal`:
+```
+### python
+python3
+```
+
+✅ Next, import the Python drivers and use them to connect to the local node
+(which is the default connection, so you don't need to provide IP addresses):
+```
+### python
+from dse.cluster import Cluster
+cluster = Cluster(protocol_version=4)
+session = cluster.connect()
+```
+
+(Note: the drivers, `dse-driver==2.11.1`, have been preinstalled in Python in our environment).
+
+✅ In the Python REPL, try the following loop - which achieves the same effect
+as the query you ran earlier in `cqlsh` - **press Enter** to
+make it run:
+```
+### python
+rows = session.execute('SELECT port, connection_stage, '
+                       'driver_name, protocol_version '
+                       'FROM system_views.clients')
+for row in rows:
+    print('%5i  %8s  %36s  %2i' % (
+        row.port, row.connection_stage,
+        row.driver_name, row.protocol_version
+    ))
+```
+
+How many rows are there? Look at the ports used and the protocol versions.
+Notice that the latter matches the required version specified a few lines above,
+when creating the `Cluster` object (`protocol_version=4`).
+
+✅ Suppose you want to make sure all your clients have been upgraded to the
+more recent protocol (version 5). Check by issuing, in `cqlsh`,
+the following command (note its `WHERE` clause):
+```
+### cqlsh
+SELECT address, protocol_version, username 
+FROM clients 
+WHERE protocol_version < 5 ALLOW FILTERING ;
+```
+
+Recall that for virtual tables there's no need to worry about
+full-cluster scans.
 
 <!-- NAVIGATION -->
 <div id="navigation-bottom" class="navigation-bottom">
