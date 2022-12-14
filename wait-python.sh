@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 
-pip install dse-driver==2.11.1 >/dev/null 2>&1
+pip install dse-driver==2.11.1 >/dev/null 2>&1 &
 
 clear
 
