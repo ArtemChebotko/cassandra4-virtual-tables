@@ -20,14 +20,29 @@
 
 <!-- CONTENT -->
 
-<div class="step-title">Welcome to internode messaging</div>
+<div class="step-title">Check the environment</div>
 
-One performance enhancement of Apache Cassandra® 4.x is internode communication optimizations and tuning.
-These adjustments consist of several changes; some of these changes are just good to know about, but others you can tune with parameters.
-Many of the internode communication changes are a result of retiring technical debt.
+The environment has a single-node Cassandra cluster running. 
+We will interact with Cassandra by executing commands in the three terminals:
+* `bash-terminal` is for using utilities like `nodetool` and `grep`;
+* `cqlsh-terminal` is for using the CQL shell;
+* `python-terminal` is for using a Python client for Cassandra. 
 
-Not all of these adjustments are visible outside of the Cassandra code.
-But in this scenario, we explain the changes and show you what we can.
+✅ Use `nodetool` in `bash-terminal` to verify that Cassandrais is running:
+```
+### bash
+nodetool status
+```
+
+The output should show that the current node (which forms a cluster by itself)
+is in a status `UN` (meaning Up and Normal). _Make sure Cassandra is completely started before proceeding._
+
+
+✅ Start the CQL shell in `cqlsh-terminal`:
+```
+### cqlsh
+cqlsh
+```
 
 <!-- NAVIGATION -->
 <div id="navigation-bottom" class="navigation-bottom">
