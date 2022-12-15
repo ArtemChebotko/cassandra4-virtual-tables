@@ -20,7 +20,7 @@
 
 <!-- CONTENT -->
 
-<div class="step-title">Do the metrics add up?</div>
+<div class="step-title">Restart Cassandra</div>
 
 Since there are only two nodes, you would expect that the number of bytes sent from one node should be equal to the number of bytes received by the other node. Let's see if we can demonstrate that.
 

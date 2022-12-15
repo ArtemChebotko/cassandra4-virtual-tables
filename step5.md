@@ -20,35 +20,37 @@
 
 <!-- CONTENT -->
 
-<div class="step-title">Internode metrics and virtual tables</div>
+<div class="step-title">Check read timeout</div>
 
-One visible aspect of the Cassandra 4.x internode messaging improvements is that internode messaging metrics are now available as virtual tables. In this step, we'll show you what we mean.
+Virtual tables are also a great way to access all sorts of settings and
+configuration parameters for a Cassandra node.
 
-Each node in the Cassandra cluster has virtual tables in which Cassandra keeps internode messaging metrics.
-Table `internode_inbound` keeps track of inbound messaging metrics, and table `internode_outbound` keeps track of the outbound messaging metrics. Both tables are in the `system_views` keyspace. Note that these are not real tables. They merely _appear_ as tables to allow access to the metrics they contain. We'll use the CQL shell to look at these tables.
+Let's turn our attention to the _read request timeout_, a quantity that
+specifies how long this node will wait before timing out when it's acting
+as read query coordinator.
 
-✅ Start the CQL shell:
+You can look for the setting directly in the `cassandra.yaml` file:
 ```
-cqlsh
-```
-
-✅ Shows the `internode_inbound` table schema:
-```
-DESCRIBE TABLE system_views.internode_inbound;
+### bash
+grep "read_request_timeout_in_ms:" $HOME/apache-cassandra/conf/cassandra.yaml
 ```
 
-✅ Shows the `internode_outbound` table schema:
+Alternatively, you can use the corresponding `get*`
+operation offered by `nodetool`:
 ```
-DESCRIBE TABLE system_views.internode_outbound;
+### bash
+nodetool gettimeout read
 ```
 
-Notice that these descriptions are embedded within comments.
-This is because the tables are virtual and were never actually created.
+With virtual tables, the same information is now available with a `SELECT`:
+```
+### cqlsh
+SELECT * FROM system_views.settings
+    WHERE name = 'read_request_timeout_in_ms';
+```
 
-✅ Exit the CQL shell:
-```
-exit;
-```
+In most situations, the default setting (5000 milliseconds)
+is perfectly fine; however, there may be exceptions, as we will soon see.
 
 <!-- NAVIGATION -->
 <div id="navigation-bottom" class="navigation-bottom">

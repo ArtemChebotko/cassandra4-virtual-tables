@@ -20,7 +20,7 @@
 
 <!-- CONTENT -->
 
-<div class="step-title">Review the messaging metrics</div>
+<div class="step-title">Change read timeout</div>
 
 Let's review the messaging metrics by querying the virtual tables. 
 Since the tables are local to each Cassandra node, we need to connect to different nodes in the cluster and query their local tables.
