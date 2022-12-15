@@ -64,7 +64,7 @@ session = cluster.connect()
 as the query you ran earlier in `cqlsh` - **press Enter** to
 make it run:
 ```
-### python
+### {"terminalId": "python", "macrosAfter": ["enter"]}
 rows = session.execute('SELECT port, connection_stage, driver_name, protocol_version FROM system_views.clients')
 for row in rows:
     print('%5i  %8s  %36s  %2i' % (
