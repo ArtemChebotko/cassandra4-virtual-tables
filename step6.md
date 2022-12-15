@@ -22,24 +22,38 @@
 
 <div class="step-title">Change read timeout</div>
 
-Let's review the messaging metrics by querying the virtual tables. 
-Since the tables are local to each Cassandra node, we need to connect to different nodes in the cluster and query their local tables.
+_A heavy exceptional maintenance task is starting on your node:
+you need to temporarily
+raise the read timeout to 18 seconds until the task is over. This way, you'll
+prevent the application from repeatedly timing out
+(increased latency is more acceptable in your case)._
 
-✅ Display messaging metrics on the first node:
+✅ You sure don't want to edit `cassandra.yaml` and restart the nodes, so you
+decide to change this setting on the fly, with:
 ```
-cqlsh localhost 9042 -e "
-      SELECT * FROM system_views.internode_inbound;
-      SELECT * FROM system_views.internode_outbound;"
-```
-
-✅ Display messaging metrics on the second node:
-```
-cqlsh localhost 9043 -e "
-      SELECT * FROM system_views.internode_inbound;
-      SELECT * FROM system_views.internode_outbound;"
+### bash
+nodetool settimeout read 18000
 ```
 
-Notice how each node records communication with its peer node in a different datacenter. When connected to the node in `DC-West`, we can see messages exchanged with the node in `DC-East` and vice versa.
+(remember writing on a virtual table is not supported... yet.)
+
+✅ Now, does the `cassandra.yaml` automatically reflect this change? Let's find out:
+```
+### bash
+grep "read_request_timeout_in_ms:" /etc/cassandra/cassandra.yaml
+```
+
+✅ Does `nodetool` itself reflect the change? Let's check:
+```
+### bash
+nodetool gettimeout read
+```
+
+✅ Does the virtual-table method give you the newly-set value of 18000? Let's see:
+```
+### cqlsh
+SELECT * FROM system_views.settings WHERE name = 'read_request_timeout_in_ms';
+```
 
 <!-- NAVIGATION -->
 <div id="navigation-bottom" class="navigation-bottom">
