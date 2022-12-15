@@ -42,7 +42,7 @@ So you are simply looking at the connection between your own `cqlsh`
 and the node.
 
 Let's create more connections. 
-Before we begin, make sure that the message in `python-terminal` says `DSE driver successfully installed.`
+Before we begin, make sure that the message in `python-terminal` says `Cassandra driver successfully installed.`
 
 ✅ First, let's start a Python interpreter console (or _REPL_) and connect to the
 node from there. Start the Python interpreter in `python-terminal`:
@@ -55,7 +55,7 @@ python3
 (which is the default connection, so you don't need to provide IP addresses):
 ```
 ### python
-from dse.cluster import Cluster
+from cassandra.cluster import Cluster
 cluster = Cluster(protocol_version=4)
 session = cluster.connect()
 ```
