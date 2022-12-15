@@ -29,20 +29,20 @@ Let's turn our attention to the _read request timeout_, a quantity that
 specifies how long this node will wait before timing out when it's acting
 as read query coordinator.
 
-You can look for the setting directly in the `cassandra.yaml` file:
+✅ You can look for the setting directly in the `cassandra.yaml` file:
 ```
 ### bash
 grep "read_request_timeout_in_ms:" $HOME/apache-cassandra/conf/cassandra.yaml
 ```
 
-Alternatively, you can use the corresponding `get*`
+✅ Alternatively, you can use the corresponding `get*`
 operation offered by `nodetool`:
 ```
 ### bash
 nodetool gettimeout read
 ```
 
-With virtual tables, the same information is now available with a `SELECT`:
+✅ With virtual tables, the same information is now available with a `SELECT`:
 ```
 ### cqlsh
 SELECT * FROM system_views.settings
