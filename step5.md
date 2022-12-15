@@ -46,7 +46,7 @@ nodetool gettimeout read
 ```
 ### cqlsh
 SELECT * FROM system_views.settings
-    WHERE name = 'read_request_timeout_in_ms';
+WHERE name = 'read_request_timeout_in_ms';
 ```
 
 In most situations, the default setting (5000 milliseconds)

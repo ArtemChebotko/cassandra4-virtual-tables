@@ -22,23 +22,43 @@
 
 <div class="step-title">Restart Cassandra</div>
 
-Since there are only two nodes, you would expect that the number of bytes sent from one node should be equal to the number of bytes received by the other node. Let's see if we can demonstrate that.
+_Now the maintenance is completed and the node load is back to normal.
+You could simply revert the timeout setting to its default with
+a `nodetool settimeout read 5000` command._
 
-✅ Get inbound metrics from the first node and outbound metrics from the second node:
+✅ Let's try instead restarting Cassandra on this node to see
+if the timeout gets reset to the default of 5 seconds:
 ```
-cqlsh localhost 9042 -e "SELECT received_count, received_bytes FROM system_views.internode_inbound;" &
-cqlsh localhost 9043 -e "SELECT sent_count, sent_bytes FROM system_views.internode_outbound;"
+### bash
+pgrep -u gitpod -f cassandra | xargs kill -9
+sleep 5
+$HOME/apache-cassandra/bin/cassandra
 ```
 
-We are only looking at two fields: the number of operations and the number of bytes.
-Isolating these metrics makes it a little easier to compare the results across nodes.
+✅ Wait until `nodetool status` reports state `UN` (=Up, Normal) again:
+```
+### bash
+nodetool status
+```
 
-Often, the number of bytes written will exceed the number of bytes read.
-You can make sense of this by considering the number of operations.
-You see that the number of write operations often exceeds the number of read operations (until the read node catches up).
+✅ Now let's look at the timeout value as read through the `system_views.settings`
+virtual table:
+```
+### cqlsh
+SELECT * FROM system_views.settings 
+WHERE name = 'read_request_timeout_in_ms';
+```
 
-Re-run the queries (by clicking above) until the number of operations is the same for both nodes.
-You see that the number of bytes transferred also matches.
+_(Note: the node may appear unavailable for a short while, in which case you can
+repeat this `SELECT` command to see the results.)_
+
+✅ Compare with the output that `nodetool` provides:
+```
+### bash
+nodetool gettimeout read
+```
+
+Has the setting reverted to the default after restarting?
 
 <!-- NAVIGATION -->
 <div id="navigation-bottom" class="navigation-bottom">

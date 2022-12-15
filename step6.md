@@ -52,7 +52,8 @@ nodetool gettimeout read
 ✅ Does the virtual-table method give you the newly-set value of 18000? Let's see:
 ```
 ### cqlsh
-SELECT * FROM system_views.settings WHERE name = 'read_request_timeout_in_ms';
+SELECT * FROM system_views.settings 
+WHERE name = 'read_request_timeout_in_ms';
 ```
 
 <!-- NAVIGATION -->
