@@ -40,7 +40,7 @@ nodetool settimeout read 18000
 ✅ Now, does the `cassandra.yaml` automatically reflect this change? Let's find out:
 ```
 ### bash
-grep "read_request_timeout_in_ms:" /etc/cassandra/cassandra.yaml
+grep "read_request_timeout_in_ms:" $HOME/apache-cassandra/conf/cassandra.yaml
 ```
 
 ✅ Does `nodetool` itself reflect the change? Let's check:
