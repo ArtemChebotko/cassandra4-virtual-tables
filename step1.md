@@ -22,11 +22,13 @@
 
 <div class="step-title">Check the environment</div>
 
-The environment has a single-node Cassandra cluster running. 
+The environment has a single-node Cassandra cluster. 
 We will interact with Cassandra by executing commands in the three terminals:
 * `bash-terminal` is for using utilities like `nodetool` and `grep`;
-* `cqlsh-terminal` is for running the CQL shell;
-* `python-terminal` is for interacting with Cassandra via a Python client. 
+* `cqlsh-terminal` is for executing CQL statements using a CQL shell;
+* `python-terminal` is for interacting with Cassandra via a Python client using a DSE Driver. 
+
+_Wait until the Cassandra cluster is successfully started._
 
 ✅ Use `nodetool` in `bash-terminal` to verify that Cassandrais is running:
 ```
@@ -35,14 +37,8 @@ nodetool status
 ```
 
 The output should show that the current node (which forms a cluster by itself)
-is in a status `UN` (meaning Up and Normal). _Make sure Cassandra is completely started before proceeding._
+is in a status `UN` (meaning Up and Normal). 
 
-
-✅ Start the CQL shell in `cqlsh-terminal`:
-```
-### cqlsh
-cqlsh
-```
 
 <!-- NAVIGATION -->
 <div id="navigation-bottom" class="navigation-bottom">

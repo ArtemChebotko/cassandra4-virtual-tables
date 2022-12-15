@@ -23,7 +23,7 @@
 <div class="step-title">Inspect virtual tables</div>
 
 Let's have a look at the virtual tables that are available, and the specific
-keyspaces where these tables are located.
+keyspaces where these tables are located. We will execute CQL statements in `cqlsh-terminal`.
 
 ✅ First, list the existing keyspaces in the CQL shell:
 ```
