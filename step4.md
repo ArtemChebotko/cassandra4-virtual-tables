@@ -71,7 +71,6 @@ for row in rows:
         row.port, row.connection_stage,
         row.driver_name, row.protocol_version
     ))
- 
 ```
 
 How many rows are there? Look at the ports used and the protocol versions.
