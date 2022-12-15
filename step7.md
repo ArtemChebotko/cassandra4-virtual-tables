@@ -45,8 +45,8 @@ nodetool status
 virtual table:
 ```
 ### cqlsh
-SELECT * FROM system_views.settings 
-WHERE name = 'read_request_timeout_in_ms';
+cqlsh -e "SELECT * FROM system_views.settings 
+WHERE name = 'read_request_timeout_in_ms';"
 ```
 
 _(Note: the node may appear unavailable for a short while, in which case you can
