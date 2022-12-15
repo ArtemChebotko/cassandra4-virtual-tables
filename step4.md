@@ -41,7 +41,8 @@ This driver keeps two connections alive on two different ports
 So you are simply looking at the connection between your own `cqlsh`
 and the node.
 
-Let's create more connections.
+Let's create more connections. 
+Before we begin, make sure that the message in `python-terminal` says `DSE driver successfully installed.`
 
 ✅ First, let's start a Python interpreter console (or _REPL_) and connect to the
 node from there. Start the Python interpreter in `python-terminal`:
@@ -59,21 +60,18 @@ cluster = Cluster(protocol_version=4)
 session = cluster.connect()
 ```
 
-(Note: the drivers, `dse-driver==2.11.1`, have been preinstalled in Python in our environment).
-
 ✅ In the Python REPL, try the following loop - which achieves the same effect
 as the query you ran earlier in `cqlsh` - **press Enter** to
 make it run:
 ```
 ### python
-rows = session.execute('SELECT port, connection_stage, '
-                       'driver_name, protocol_version '
-                       'FROM system_views.clients')
+rows = session.execute('SELECT port, connection_stage, driver_name, protocol_version FROM system_views.clients')
 for row in rows:
     print('%5i  %8s  %36s  %2i' % (
         row.port, row.connection_stage,
         row.driver_name, row.protocol_version
     ))
+ 
 ```
 
 How many rows are there? Look at the ports used and the protocol versions.
